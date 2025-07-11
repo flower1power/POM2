@@ -5,7 +5,6 @@ import pytest
 from selenium import webdriver
 
 
-
 @pytest.fixture(autouse=True, scope="function")
 def driver(request):
     try:
@@ -15,6 +14,7 @@ def driver(request):
     if browser == "chrome":
         options = webdriver.ChromeOptions()
         options.add_argument("--window-size=1920,1080")
+        options.add_argument("--headless=new")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
         driver = webdriver.Chrome(options=options)

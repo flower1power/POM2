@@ -1,14 +1,12 @@
 import allure
 from selenium.common import TimeoutException
-from selenium.webdriver.chrome.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.support.wait import WebDriverWait
 
+from base.base_page import BasePage
 from data.urls import Urls
 
 
-class ResetPasswordPage:
+class ResetPasswordPage(BasePage):
     _PAGE_URL = Urls.RESET_PASSWORD_PAGE
 
     _USERNAME_INPUT_LOCATOR = ("xpath", "//input[@name='username']")
@@ -20,15 +18,6 @@ class ResetPasswordPage:
         "xpath",
         "//button[@type='submit' and normalize-space()='Reset Password' ]",
     )
-
-    def __init__(self, driver):
-        self._driver: WebDriver = driver
-        self._wait = WebDriverWait(self._driver, 10, 1)
-        self._EC = expected_conditions
-
-    def open(self):
-        with allure.step(f"Открытие страницы {self._PAGE_URL}"):
-            self._driver.get(self._PAGE_URL)
 
     def fill_username(self, username: str):
         with allure.step(f"Заполнение инпута username: {username}"):
