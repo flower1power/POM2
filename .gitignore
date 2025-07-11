@@ -1,0 +1,11 @@
+allure-report
+allure-results
+.env
+.venv
+.pytest_cache
+.DS_Store
+.idea
+.vscode
+__pycache__
+
+
