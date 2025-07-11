@@ -9,7 +9,11 @@ stages = {
 	"demo": "https://opensource-demo.orangehrmlive.com/web/index.php",
 }
 
-HOST = stages[os.environ["STAGE"]]
+try:
+    HOST = stages[os.environ["STAGE"]]
+except KeyError:
+    raise RuntimeError("Не установлена переменная окружения STAGE. Пример: STAGE=demo pytest")
+
 
 
 class Urls:

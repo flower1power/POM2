@@ -39,7 +39,7 @@ class BasePage:
         NavMenuButton.TIME: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Time']"),
         NavMenuButton.RECRUITMENT: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Recruitment']"),
         NavMenuButton.MY_INFO: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='My Info']"),
-        NavMenuButton.PERFORMANCE: ("xpath", ".a[contains(@class, 'oxd-main-menu-item')]/span[text()='Performance']"),
+        NavMenuButton.PERFORMANCE: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Performance']"),
         NavMenuButton.DASHBOARD: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Dashboard']"),
         NavMenuButton.DIRECTORY: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Directory']"),
         NavMenuButton.MAINTENANCE: ("xpath", ".//a[contains(@class, 'oxd-main-menu-item')]/span[text()='Maintenance']"),

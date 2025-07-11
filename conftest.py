@@ -5,24 +5,13 @@ import pytest
 from selenium import webdriver
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--browser",
-        action="store",
-        default=None,
-        help="Браузер для запуска тестов: chrome или firefox",
-    )
-    parser.addoption(
-        "--stage",
-        action="store",
-        default=None,
-        help="Стенд для тестирования: dev или demo",
-    )
-
 
 @pytest.fixture(autouse=True, scope="function")
 def driver(request):
-    browser = request.config.getoption("--browser") or os.environ.get("BROWSER", "chrome")
+    try:
+        browser = os.environ["BROWSER"]
+    except KeyError:
+        raise RuntimeError("Не установлена переменная окружения BROWSER. Пример: BROWSER=chrome pytest")
     if browser == "chrome":
         options = webdriver.ChromeOptions()
         options.add_argument("--window-size=1920,1080")
@@ -43,22 +32,23 @@ def driver(request):
 
 
 @pytest.fixture(scope="session", autouse=True)
-def set_stage_env(request):
-    stage = request.config.getoption("--stage") or os.environ.get("STAGE", "demo")
-    os.environ["STAGE"] = stage
-    yield
-
-
-@pytest.fixture(scope="session", autouse=True)
 def allure_environment(request):
     allure_results_dir = request.config.getoption("--alluredir")
     if allure_results_dir:
         if not os.path.exists(allure_results_dir):
             os.makedirs(allure_results_dir)
+        try:
+            browser = os.environ["BROWSER"]
+        except KeyError:
+            raise RuntimeError("Не установлена переменная окружения BROWSER. Пример: BROWSER=chrome pytest")
+        try:
+            stage = os.environ["STAGE"]
+        except KeyError:
+            raise RuntimeError("Не установлена переменная окружения STAGE. Пример: STAGE=demo pytest")
+
         with open(os.path.join(allure_results_dir, "environment.properties"), "w") as f:
-            f.write(f"Browser={os.environ.get('BROWSER', 'chrome')}\n")
-            f.write(f"STAGE={os.environ.get('STAGE', 'demo')}\n")
-            f.write(f"BASE_URL={os.getenv('BASE_URL')}\n")
+            f.write(f"Browser={browser}\n")
+            f.write(f"STAGE={stage}\n")
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
