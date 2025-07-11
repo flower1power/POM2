@@ -36,7 +36,6 @@ POM2/
 
 ## Установка зависимостей
 
-- Для запуска тестов:
   ```bash
   pip install -r requirements.txt
   ```
