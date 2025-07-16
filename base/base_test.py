@@ -7,7 +7,7 @@ from pages.reset_password_page import ResetPasswordPage
 
 class BaseTest:
     def setup_method(self):
-        self.auth_page = AuthPage(self.driver)
-        self.reset_password_page = ResetPasswordPage(self.driver)
-        self.dashboard_page = DashboardPage(self.driver)
+        self.auth_page = lambda driver=self.driver: AuthPage(driver)
+        self.reset_password_page = lambda driver=self.driver: ResetPasswordPage(driver)
+        self.dashboard_page = lambda driver=self.driver: DashboardPage(driver)
         self.faker = Faker()

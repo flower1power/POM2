@@ -5,8 +5,7 @@ import pytest
 from selenium import webdriver
 
 
-@pytest.fixture(autouse=True, scope="function")
-def driver(request):
+def get_driver():
     try:
         browser = os.environ["BROWSER"]
     except KeyError:
@@ -14,7 +13,7 @@ def driver(request):
     if browser == "chrome":
         options = webdriver.ChromeOptions()
         options.add_argument("--window-size=1920,1080")
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
         options.add_experimental_option("excludeSwitches", ["enable-automation"])
         options.add_experimental_option("useAutomationExtension", False)
         driver = webdriver.Chrome(options=options)
@@ -24,7 +23,23 @@ def driver(request):
         raise ValueError(f"Browser {browser} is not supported")
 
     driver.delete_all_cookies()
+
+    return driver
+
+
+@pytest.fixture(autouse=True, scope="function")
+def driver(request):
+    driver = get_driver()
     request.cls.driver = driver
+
+    yield driver
+
+    driver.quit()
+
+
+@pytest.fixture()
+def admin(request):
+    driver = get_driver()
 
     yield driver
 
